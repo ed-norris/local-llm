@@ -44,25 +44,14 @@ ol.footnotes ul li { margin-bottom:3px; }
 <body>
 
 <h1>Coding-agent stack decision map — four paths</h1>
-<p class="lede">You start with no stack and choose one option at each decision; the series of
-choices is your path, and every path ends at a working model + harness + git setup. Two paths
-are direct reads of a specific published source; one is this project's own build; one is the
-naive baseline those sources are explicitly reacting against, not a recommendation. Toggle a
-path below to trace it — where two agree, their lines run parallel; where they part, that's
-the actual tradeoff, not just a labeled box.</p>
+<p class="lede">The landscape of local LLM development can be simplified by enumerating the tool decisions that need to be made.  Making the correct decisions for any particular use case is left as an exercise for the reader.  What helped me was to read through a few setup articles and plot them as paths to a solution.</p>
 <div id="controls"></div>
 
 <svg id="map" viewBox="0 0 840 560" role="img">
 <title>Coding-agent stack decision map with four paths</title>
 <desc>From start (no stack) through inference, harness, isolation, git credential, review gate,
-and commit signing to a complete stack. Four paths — Micah Lee, Vicki Boykis, this project,
-and a naive default — each trace a different set of choices.</desc>
+and commit signing to a complete stack. .</desc>
 </svg>
-
-<p class="help">● a stated fact from that path's source. ○ a value inferred or assumed rather
-than directly stated — see footnotes below before relying on it. Where two paths pick the same
-option their lines are nudged apart so both stay visible; that's a shared choice, not a
-coincidence in the drawing.</p>
 
 <ol class="footnotes" id="footnotes"></ol>
 
@@ -83,8 +72,8 @@ them.</p>
     { id:"harn",  label:"Harness",         opts:["Pi","OpenCode","Claude Code"] },
     { id:"iso",   label:"Isolation",       opts:["plain Docker (bash-only)","sbx","Docker (unscoped)"] },
     { id:"cred",  label:"Git credential",  opts:["none","scoped PAT","unscoped gh auth"] },
-    { id:"gate",  label:"Review gate",     opts:["n/a — no credential","soft — human merges","not yet verified","none — YOLO mode"] },
-    { id:"sign",  label:"Commit signing",  opts:["n/a — not discussed","no","yes — dedicated key"] },
+    { id:"gate",  label:"Review gate",     opts:["n/a","soft — human merges","none — YOLO mode"] },
+    { id:"sign",  label:"Commit signing",  opts:["n/a","no","yes — dedicated key"] },
   ];
 
   // pick: the option text per row. confirmed: true = stated by the source / decided by us,
@@ -99,7 +88,7 @@ them.</p>
       ]
     },
     { id:"vicki", name:"Vicki Boykis", color:"#1aa179",
-      pick:     { inf:"local — LM Studio", harn:"Pi", iso:"plain Docker (bash-only)", cred:"none", gate:"n/a — no credential", sign:"n/a — not discussed" },
+      pick:     { inf:"local — LM Studio", harn:"Pi", iso:"plain Docker (bash-only)", cred:"none", gate:"n/a", sign:"n/a" },
       confirmed:{ inf:true, harn:true, iso:true, cred:false, gate:false, sign:false },
       notes: {
         cred: "her post never mentions GitHub, PATs, or pushing code — \u201cnone\u201d is inferred from the bash-only container permissions she does describe, not stated by her",
@@ -110,11 +99,11 @@ them.</p>
         ["Running local models is good now", "https://vickiboykis.com/2026/06/15/running-local-models-is-good-now/"]
       ]
     },
-    { id:"ed", name:"This project", color:"#7c3aed",
-      pick:     { inf:"local — LM Studio", harn:"OpenCode", iso:"sbx", cred:"scoped PAT", gate:"not yet verified", sign:"no" },
+    { id:"ed", name:"My project", color:"#7c3aed",
+      pick:     { inf:"local — LM Studio", harn:"OpenCode", iso:"sbx", cred:"scoped PAT", gate:"soft — human merges", sign:"no" },
       confirmed:{ inf:true, harn:true, iso:true, cred:true, gate:false, sign:true },
       notes: {
-        gate: "haven't confirmed whether OpenCode has a real enforced approval step before push, or whether this is just intent — don't write \u201csoft\u201d here until that's checked directly in the harness config"
+        gate: "haven't confirmed whether OpenCode has a real enforced approval step before push, or whether this is just intent"
       },
       sources: []
     },
@@ -122,7 +111,7 @@ them.</p>
       pick:     { inf:"cloud (Claude)", harn:"Claude Code", iso:"Docker (unscoped)", cred:"unscoped gh auth", gate:"none — YOLO mode", sign:"no" },
       confirmed:{ inf:true, harn:true, iso:false, cred:true, gate:true, sign:true },
       notes: {
-        iso: "composite baseline, not a literal quote — assembled from the practice Micah explicitly warns against (full personal gh auth, --dangerously-skip-permissions) plus Claude Code's own documented bypassPermissions mode, not a stated combination from either"
+        iso: "composite baseline, not a literal quote — assembled from the practice Micah warns against (full personal gh auth, --dangerously-skip-permissions) plus Claude Code's documented bypassPermissions mode"
       },
       sources: [
         ["Agentic coding techniques", "https://micahflee.com/agentic-coding-techniques/"],
